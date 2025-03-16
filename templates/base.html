@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta name="google-site-verification" content="0G6hz7dfQ90ywYSYV0_eoll3ot6Wpc2Czj6xRaS8-8Y" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}" class="favicon">
+    <title>{% block title %}Lumina - Moteur de recherche{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4285f4;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .logo span {
+            color: #ea4335;
+            transition: color 0.3s;
+        }
+        nav {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #4285f4;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .result-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.3s;
+        }
+        .result-item h3 {
+            margin-top: 0;
+            color: #1a0dab;
+            transition: color 0.3s;
+        }
+        .result-item p {
+            margin-bottom: 0;
+            color: #545454;
+            transition: color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        body.dark-mode .logo {
+            color: #64b5f6;
+        }
+        body.dark-mode .logo span {
+            color: #ff8a65;
+        }
+        body.dark-mode nav a {
+            color: #64b5f6;
+        }
+        body.dark-mode input[type="text"] {
+            background-color: #444;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+        body.dark-mode .result-item {
+            background-color: #444;
+        }
+        body.dark-mode .result-item h3 a {
+            color: #64b5f6;
+        }
+        body.dark-mode .result-item p {
+            color: #ccc;
+        }
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        body.dark-mode #theme-toggle {
+            background-color: #64b5f6;
+        }
+        .link-item {
+            background-color: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .link-item h2 {
+            margin-top: 0;
+        }
+        .link-item a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+        .link-item p {
+            margin-bottom: 0;
+            color: #545454;
+        }
+        .favicon {
+            height: 100px;
+            width: 100px;
+        }
+        .network-menu {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .network-menu-button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        .network-menu-content {
+            position: absolute;
+            bottom: 50px;
+            right: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 4px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+        }
+        .network-menu:hover .network-menu-content,
+        .network-menu.active .network-menu-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .network-menu-content a {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .network-menu-content a:hover {
+            color: #4285f4;
+        }
+        .network-menu-content i {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+        body.dark-mode .network-menu-button {
+            background-color: #64b5f6;
+        }
+        body.dark-mode .network-menu-content {
+            background-color: #444;
+        }
+        body.dark-mode .network-menu-content a {
+            color: #f0f0f0;
+        }
+        body.dark-mode .network-menu-content a:hover {
+            color: #64b5f6;
+        }
+        .guirlande-noel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 9999;
+        }
+        .lumiere {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            animation: clignote 1s infinite alternate;
+        }
+        .flocon {
+            color: white;
+            position: fixed;
+            top: -10px;
+            animation: neige linear infinite;
+            z-index: 9998;
+        }
+        @keyframes neige {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        }, false);
+    </script>
+
+</head>
+<body>
+    <button id="theme-toggle">Changer de thème</button>
+    <div class="logo-container">
+        <a href="{{ url_for('home') }}" class="logo">Lumina</a>
+    </div>
+    <nav>
+        <a href="{{ url_for('home') }}">Accueil</a>
+        <a href="{{ url_for('show_announcements') }}">Annonces</a>
+        <a href="{{ url_for('liens_utiles') }}">Liens Utiles</a>
+        <a href="{{ url_for('db_search') }}">Rechercher des anciens articles</a>
+        <a href="{{ url_for('send') }}">Contactez-nous</a>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <div class="network-menu" id="networkMenu">
+        <button class="network-menu-button" id="networkMenuButton">⋮</button>
+        <div class="network-menu-content">
+            <a href="https://discord.gg/X6WD4zzDNV" target="_blank">
+                <i class="fab fa-discord"></i>
+                Discord
+            </a>
+            <a href="{{ url_for('dons') }}">
+                <i class="fas fa-donate"></i>
+                Faire un don
+            </a>
+            <a href="{{ url_for('extension') }}">
+                <i class="fas fa-puzzle-piece"></i>
+                Installer l'extension
+                  </a>
+            <a href="https://work.weblink.ovh/api/doc/article" target="_blank">
+                <i class="fas fa-laptop"></i>
+                API
+            </a>
+              <a href="http://88.151.197.188:2025/faq" target="_blank">
+                <i class="fas fa-question-circle"></i>
+                FAQ
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function creerFlocons() {
+            const nombreFlocons = 90;
+            for (let i = 0; i < nombreFlocons; i++) {
+                let flocon = document.createElement('div');
+                flocon.innerHTML = '';
+                flocon.className = 'flocon';
+                flocon.style.left = Math.random() * 100 + 'vw';
+                flocon.style.animationDuration = (5 + Math.random() * 10) + 's';
+                flocon.style.opacity = Math.random();
+                flocon.style.fontSize = (10 + Math.random() * 20) + 'px';
+                document.body.appendChild(flocon);
+            }
+        }
+        creerFlocons();
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.classList.add(currentTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', '');
+            } else {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            }
+        });
+
+        const networkMenu = document.getElementById('networkMenu');
+        const networkMenuButton = document.getElementById('networkMenuButton');
+
+        networkMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            networkMenu.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!networkMenu.contains(e.target)) {
+                networkMenu.classList.remove('active');
+            }
+        });
+
+        networkMenu.querySelector('.network-menu-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    </script>
+</body>
+</html>

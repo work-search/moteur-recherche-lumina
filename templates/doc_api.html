@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation de l'API Work Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #7289da;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background: #2c2f33;
+            color: white;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #7289da;
+            border-bottom: 2px solid #7289da;
+            padding-bottom: 5px;
+        }
+        pre {
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-left: 3px solid #7289da;
+            color: #666;
+            page-break-inside: avoid;
+            font-family: monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
+        }
+        code {
+            background: #f4f4f4;
+            border-radius: 3px;
+            font-family: monospace;
+            padding: 2px 5px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #2c2f33;
+            color: white;
+        }
+        a {
+            color: #7289da;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Documentation de l'API Work Search</h1>
+        <p>Guide complet pour utiliser l'API de recherche d'articles</p>
+    </header>
+
+    <nav id="table-of-contents">
+        <center>
+        <h2>Table des matières</h2>
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#endpoint">Endpoint</a></li>
+            <li><a href="#methode">Méthode</a></li>
+            <li><a href="#parametres">Paramètres</a></li>
+            <li><a href="#reponse">Réponse</a></li>
+            <li><a href="#exemple-reponse">Exemple de réponse</a></li>
+            <li><a href="#codes-erreur">Codes d'erreur</a></li>
+            <li><a href="#limites">Limites</a></li>
+            <li><a href="#exemple-utilisation">Exemple d'utilisation</a></li>
+        </ul
+        </center>
+    </nav>
+
+    <main>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>L'API Work Search permet de rechercher des articles dans la base de données en fonction d'un terme de recherche fourni. Elle renvoie les résultats au format JSON.</p>
+        </section>
+
+        <section id="endpoint">
+            <h2>Endpoint</h2>
+            <pre><code>/api/article/&lt;recherche&gt;</code></pre>
+        </section>
+
+        <section id="methode">
+            <h2>Méthode</h2>
+            <p>GET</p>
+        </section>
+
+        <section id="parametres">
+            <h2>Paramètres</h2>
+            <ul>
+                <li><code>recherche</code> (obligatoire) : Le terme de recherche à utiliser pour trouver des articles.</li>
+            </ul>
+        </section>
+
+        <section id="reponse">
+            <h2>Réponse</h2>
+            <p>La réponse est au format JSON et contient les éléments suivants :</p>
+            <ul>
+                <li><code>articles</code> : Un tableau d'objets représentant les articles trouvés. Chaque objet article contient :
+                    <ul>
+                        <li><code>id</code> : L'identifiant unique de l'article</li>
+                        <li><code>title</code> : Le titre de l'article</li>
+                        <li><code>description</code> : La description de l'article</li>
+                        <li><code>url</code> : L'URL de l'article</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="exemple-reponse">
+            <h2>Exemple de réponse</h2>
+            <pre><code>{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Exemple d'article",
+      "description": "Ceci est une description d'exemple",
+      "url": "https://example.com/article1"
+    },
+    {
+      "id": 2,
+      "title": "Autre article",
+      "description": "Une autre description",
+      "url": "https://example.com/article2"
+    }
+  ]
+}</code></pre>
+        </section>
+
+        <section id="codes-erreur">
+            <h2>Codes d'erreur</h2>
+            <ul>
+                <li>500 : Erreur interne du serveur (par exemple, problème de connexion à la base de données)</li>
+            </ul>
+        </section>
+
+        <section id="limites">
+            <h2>Limites</h2>
+            <ul>
+                <li>La recherche est limitée à 50 résultats maximum.</li>
+                <li>La recherche s'effectue sur les champs "title" et "description" des articles.</li>
+            </ul>
+        </section>
+
+        <section id="exemple-utilisation">
+            <h2>Exemple d'utilisation</h2>
+            <pre><code>GET /api/article/python</code></pre>
+            <p>Cette requête recherchera tous les articles contenant le terme "python" dans leur titre ou leur description.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Documentation de l'API Work Search</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            const backToTopButton = document.createElement('button');
+            backToTopButton.innerHTML = '↑';
+            backToTopButton.style.position = 'fixed';
+            backToTopButton.style.bottom = '20px';
+            backToTopButton.style.right = '20px';
+            backToTopButton.style.display = 'none';
+            backToTopButton.style.padding = '10px';
+            backToTopButton.style.backgroundColor = '#7289da';
+            backToTopButton.style.color = 'white';
+            backToTopButton.style.border = 'none';
+            backToTopButton.style.borderRadius = '5px';
+            backToTopButton.style.cursor = 'pointer';
+
+            document.body.appendChild(backToTopButton);
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 100) {
+                    backToTopButton.style.display = 'block';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

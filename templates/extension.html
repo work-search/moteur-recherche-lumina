@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Extension - Work{% endblock %}
+
+{% block content %}
+
+
+<form action="{{ url_for('search') }}" method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Entrez votre recherche...">
+    <button type="submit">Rechercher</button>
+</form>
+
+
+<h2><u>1:</u> Comment installer une extension dans Firefox</h2>
+
+<ol>
+  <li>Ouvrez Firefox et allez dans la page de <a href="https://addons.mozilla.org/fr/firefox/addon/work-search/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search" target="_blank">l'extension de work:</a>.</li>
+  <li>Cliquez sur "Ajouter à Firefox" à côté de l'extension.</li>
+  <li>Dans la boîte de dialogue, cliquez sur "Ajouter".</li>
+  <li>Cliquez sur "J'ai compris" dans la fenêtre qui apparaît (si elle appraraît).</li>
+</ol>
+
+<h2><u>2:</u> Définir work search comme moteur de recherche principal</h2>
+
+<ol>
+  <li>Cliquez sur le bouton de menu (≡) en haut à droite.</li>
+  <li>Sélectionnez "Paramètres".</li>
+  <li>Dans la barre latérale, cliquez sur "Recherche".</li>
+  <li>Sous "Moteur de recherche par défaut", sélectionnez work search.</li>
+</ol>
+
+{% endblock %}
