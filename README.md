@@ -22,4 +22,4 @@ Pour utiliser Lumina en local :
   Si jamais rien n'apparaît sur le port 5000 (dans votre navigateur), vérifiez la console, et vérifiez la dernière ligne d'app.py
 
 
-En cas de problème, vous pouvez soit me contacter par [discord](https://discord.com/users/927137288763342868) ou par [mail](axel@athenox.dev)
+En cas de problème, vous pouvez soit me contacter par [discord](https://discord.com/users/927137288763342868) ou par [mail](mailto:axel@athenox.dev)
