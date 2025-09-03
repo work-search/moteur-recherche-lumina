@@ -52,3 +52,13 @@ To use Lumina locally:
 
 
 In case of a problem, you can either contact me by [discord](https://discord.com/users/927137288763342868) or by [mail](mailto:axel@athenox.dev)
+
+
+
+
+## License
+
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+
+You are free to use, modify, and distribute this code under the terms of the AGPL-3.0 license.  
+Any modifications made and used over a network (including server-side deployments) must also be released under the AGPL-3.0.
