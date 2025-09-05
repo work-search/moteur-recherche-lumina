@@ -91,4 +91,12 @@ def search():
     finally:
         db.close()
 
-    return render_template('search.html', recherche=recherche, results=results, query=query, error=error_message)
+
+    return render_template('search.html', recherche=recherche, results=results, query=query, error=error_message)@bp.route('/robots.txt')
+
+def robots_txt():
+    robots = (
+        "User-agent: *\n"
+        "Disallow:\n"
+    )
+    return Response(robots, mimetype='text/plain')
