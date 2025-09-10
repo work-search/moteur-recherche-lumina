@@ -1,5 +1,6 @@
 # moteur-recherche-lumina
 
+discord: https://discord.gg/QkwWDKeMjF
 
 Pour utiliser Lumina en local :
 
