@@ -1,5 +1,6 @@
 import os
 
 class Config:
-    SECRET_KEY = 'fdhfjsjlwww254'
+    SECRET_KEY = ''
     SERVER_PORT = os.environ.get('SERVER_PORT', 5000)
+
