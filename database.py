@@ -1,8 +1,11 @@
 import sqlite3
+import os
 
 def get_db():
     try:
-        db = sqlite3.connect('sites_web.db')
+        # Utiliser le chemin absolu pour la base de données
+        db_path = os.path.join(os.path.dirname(__file__), 'database', 'sites_web.db')
+        db = sqlite3.connect(db_path)
         db.row_factory = sqlite3.Row
         return db
     except sqlite3.Error as e:

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, Response
 from database import get_db
 from filters import filter_explicit_content
 import sqlite3
@@ -92,8 +92,9 @@ def search():
         db.close()
 
 
-    return render_template('search.html', recherche=recherche, results=results, query=query, error=error_message)@bp.route('/robots.txt')
+    return render_template('search.html', recherche=recherche, results=results, query=query, error=error_message)
 
+@bp.route('/robots.txt')
 def robots_txt():
     robots = (
         "User-agent: *\n"
