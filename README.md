@@ -4,7 +4,7 @@ discord: https://discord.gg/QkwWDKeMjF
 
 Pour utiliser Lumina en local :
 
-1: start l'[api principal](https://github.com/work-search/api_princ)
+1: start l'[api principal](https://github.com/work-search/lumibot)
   rentrer dans la console le site de départ (par exemple work.weblink.ovh)
   le scrapping étant en cours, attendait (pour commencer, attendais 24h par exemple)
   quand le nombre de sites vous suffit (vous pourrez bien évidemment continuer à en indexer)
