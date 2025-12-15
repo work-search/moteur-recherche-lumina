@@ -26,43 +26,22 @@ def search():
 
     try:
         cursor = db.cursor()
+        # Préparer la requête FTS5 (échapper les caractères spéciaux)
+        fts_query = query.replace('"', '""')
         cursor.execute("""
-            SELECT titre as title, url, description
-            FROM pages
-            WHERE titre LIKE ? OR description LIKE ?
+            SELECT p.titre as title, p.url, p.description,
+                   snippet(pages_fts, 1, '', '', '...', 30) as snippet
+            FROM pages_fts
+            JOIN pages p ON pages_fts.rowid = p.rowid
+            WHERE pages_fts MATCH ?
+            ORDER BY rank
             LIMIT 50
-        """, (f'%{query}%', f'%{query}%'))
+        """, (f'"{fts_query}"',))
 
         for row in cursor.fetchall():
             title = row['title']
             url = row['url']
-            description = row['description']
-            query_lower = query.lower()
-            description_lower = description.lower()
-
-            # Trouver la position de la requête dans la description
-            pos = description_lower.find(query_lower)
-
-            if pos != -1:
-                # Extraire les mots autour de la requête
-                words = description.split()
-                # Trouver l'index du mot où commence la requête
-                query_word_index = -1
-                for i, word in enumerate(words):
-                    if query_lower in word.lower():
-                        query_word_index = i
-                        break
-
-                if query_word_index != -1:
-                    # Extraire les 10 mots avant et les 20 mots après
-                    start_index = max(0, query_word_index - 10)
-                    end_index = min(len(words), query_word_index + 21)
-                    snippet_words = words[start_index:end_index]
-                    snippet_final = ' '.join(snippet_words)
-                else:
-                    snippet_final = description[:100] + '...'
-            else:
-                snippet_final = description[:100] + '...'
+            snippet_final = row['snippet'] if row['snippet'] else row['description'][:100] + '...'
 
             results.append({
                 'title': title,
